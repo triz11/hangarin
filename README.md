@@ -3,21 +3,21 @@
 # A Django web application featuring a custom dark-mode authentication interface, Google and GitHub OAuth 2.0 integration, and live deployment on PythonAnywhere.
 
 # Live Links:
-Login Page: trizthan11.pythonanywhere.com/accounts/login/
-Admin Panel: trizthan11.pythonanywhere.com/admin/
+>>Login Page: trizthan11.pythonanywhere.com/accounts/login/
+>>Admin Panel: trizthan11.pythonanywhere.com/admin/
 
 # Features:
-Custom dark-themed login UI using Bootstrap 5.
-OAuth 2.0 social login with Google and GitHub (django-allauth).
-Standard username/password authentication fallback.
-Automatic post-login redirection to the Django Admin dashboard.
+>>Custom dark-themed login UI using Bootstrap 5.
+>>OAuth 2.0 social login with Google and GitHub (django-allauth).
+>>Standard username/password authentication fallback.
+>>Automatic post-login redirection to the Django Admin dashboard.
 
 # Tech Stack:
-Backend: Python, Django 5.2, django-allauth, PyJWT
-Frontend: HTML5, CSS3, Bootstrap 5
-Hosting: PythonAnywhere
+>>Backend: Python, Django 5.2, django-allauth, PyJWT
+>>Frontend: HTML5, CSS3, Bootstrap 5
+>>Hosting: PythonAnywhere
 
-Quick Start (Local Setup):
+# Quick Start (Local Setup):
 1. Clone repository
 git clone https://github.com/<your-username>/hangarin.git
 cd hangarin
