@@ -1,89 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hangarin - Tasks</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Tasks - Hangarin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .navbar-custom { background-color: #0f172a; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .brand-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #3b82f6, #6366f1); border-radius: 8px; font-weight: 800; }
+        .nav-link { color: #94a3b8 !important; font-weight: 500; font-size: 0.9rem; margin: 0 4px; border-radius: 8px; padding: 6px 12px !important; }
+        .nav-link.active, .nav-link:hover { color: #ffffff !important; background-color: rgba(255,255,255,0.08); }
+        .badge-status { font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+        .badge-completed { background-color: #dcfce7; color: #166534; }
+        .badge-in-progress { background-color: #e0f2fe; color: #0369a1; }
+        .badge-pending { background-color: #fef3c7; color: #92400e; }
+        .badge-priority { font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
+        .priority-high { background-color: #fee2e2; color: #991b1b; }
+        .priority-medium { background-color: #fef9c3; color: #854d0e; }
+        .priority-low { background-color: #e0f2fe; color: #075985; }
+        .priority-optional { background-color: #f1f5f9; color: #475569; }
+        .table-card { background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03); }
+        .table > :not(caption) > * > * { padding: 1rem 1.25rem; }
+    </style>
 </head>
-<body class="bg-light">
-
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 py-2">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold fs-4" href="{% url 'dashboard' %}">Hangarin</a>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav align-items-center gap-3">
-                    <li class="nav-item"><a class="nav-link text-secondary" href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{% url 'tasks' %}">Tasks</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary" href="{% url 'notes' %}">Notes</a></li>
-                    <li class="nav-item"><a class="nav-link text-secondary" href="{% url 'subtasks' %}">SubTasks</a></li>
-                    {% if user.is_staff %}
-                        <li class="nav-item"><a class="nav-link text-secondary" href="/admin/">Admin</a></li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <form method="post" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-light btn-sm px-3">Logout</button>
-                        </form>
-                    </li>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom py-2">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/dashboard/">
+                <div class="brand-icon d-flex align-items-center justify-content-center text-white">H</div>
+                <span>Hangarin</span>
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto ms-4">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard/"><i class="bi bi-grid-1x2 me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/tasks/"><i class="bi bi-check2-square me-1"></i> Tasks</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/notes/"><i class="bi bi-journal-text me-1"></i> Notes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/subtasks/"><i class="bi bi-diagram-2 me-1"></i> Subtasks</a></li>
                 </ul>
+                <a href="/accounts/logout/" class="btn btn-outline-light btn-sm rounded-3"><i class="bi bi-box-arrow-right me-1"></i> Logout</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Container -->
-    <div class="container my-4">
-        <div class="d-flex justify-content-between align-items-start mb-4">
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1 class="fw-bold display-5">Tasks</h1>
-                <p class="text-muted mb-0">Manage your tasks.</p>
+                <h3 class="fw-bold mb-1">Tasks Directory</h3>
+                <p class="text-secondary small mb-0">View, filter, and track all primary task deliverables.</p>
             </div>
-            <button class="btn btn-primary px-3 py-2 fw-semibold">Add Task</button>
+            <button class="btn btn-primary rounded-3 px-3 fw-semibold"><i class="bi bi-plus-lg me-1"></i> Add Task</button>
         </div>
 
-        <div class="card border shadow-sm">
-            <div class="card-header bg-white py-3">
-                <h5 class="mb-0 fw-semibold">All Tasks</h5>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col" class="py-3 px-4">Task</th>
-                                <th scope="col" class="py-3">Status</th>
-                                <th scope="col" class="py-3">Priority</th>
-                                <th scope="col" class="py-3">Category</th>
-                                <th scope="col" class="py-3">Deadline</th>
-                                <th scope="col" class="py-3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in tasks %}
-                            <tr>
-                                <td class="px-4 py-3">{{ item.title }}</td>
-                                <td>{{ item.status }}</td>
-                                <td>{{ item.priority }}</td>
-                                <td>{{ item.category }}</td>
-                                <td>{{ item.deadline }}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">No tasks found.</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr class="text-secondary small">
+                            <th>TASK TITLE</th>
+                            <th>STATUS</th>
+                            <th>PRIORITY</th>
+                            <th>CATEGORY</th>
+                            <th>DEADLINE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td class="fw-semibold text-dark">{{ task.title }}</td>
+                            <td>
+                                <span class="badge-status {% if task.status == 'Completed' %}badge-completed{% elif task.status == 'In Progress' %}badge-in-progress{% else %}badge-pending{% endif %}">
+                                    {{ task.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge-priority {% if task.priority == 'High' %}priority-high{% elif task.priority == 'Medium' %}priority-medium{% elif task.priority == 'Low' %}priority-low{% else %}priority-optional{% endif %}">
+                                    {{ task.priority }}
+                                </span>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ task.category }}</span></td>
+                            <td class="text-secondary small"><i class="bi bi-calendar3 me-1"></i>{{ task.deadline }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
