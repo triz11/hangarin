@@ -4,216 +4,460 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hangarin</title>
+    <title>Sign In — Hangarin</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        :root {
-            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            --btn-dark: #0f172a;
-            --btn-dark-hover: #1e293b;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
         }
+
         body {
-            background: var(--primary-bg);
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Split-screen container */
+        .auth-wrapper {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 20px;
         }
-        .login-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 10px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 440px;
-            padding: 2.5rem;
-            transition: all 0.3s ease;
-        }
-        .brand-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+
+        /* --- LEFT PANEL: Branding & Visual Showcase --- */
+        .auth-hero-panel {
+            flex: 1;
+            background: linear-gradient(145deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
             color: #ffffff;
-            font-weight: 800;
-            font-size: 1.85rem;
-            border-radius: 16px;
+            padding: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient glowing background shapes */
+        .auth-hero-panel::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .auth-hero-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .brand-logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            z-index: 2;
+        }
+
+        .brand-logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.25rem;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3);
+            font-weight: 800;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
         }
-        .login-header h2 {
-            font-weight: 700;
-            color: #0f172a;
-            font-size: 1.65rem;
+
+        .brand-logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
             letter-spacing: -0.5px;
         }
-        .login-header p {
-            color: #64748b;
-            font-size: 0.925rem;
+
+        .hero-content {
+            z-index: 2;
+            max-width: 520px;
+            margin: auto 0;
         }
-        .form-floating .form-control {
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #60a5fa 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Feature cards inside hero panel */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h6 {
+            margin: 0 0 2px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #f1f5f9;
+        }
+
+        .feature-text p {
+            margin: 0;
+            font-size: 0.825rem;
+            color: #94a3b8;
+        }
+
+        .hero-footer {
+            z-index: 2;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+
+        /* --- RIGHT PANEL: Form Section --- */
+        .auth-form-panel {
+            width: 580px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 3.5rem;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.03);
+            z-index: 3;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Custom Icon Input Fields */
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group-custom .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+            z-index: 4;
+            transition: color 0.2s;
+        }
+
+        .input-group-custom .form-control {
+            padding: 0.85rem 1rem 0.85rem 48px;
             border-radius: 12px;
             border: 1.5px solid #e2e8f0;
-            padding-left: 1rem;
             font-size: 0.95rem;
-        }
-        .form-floating .form-control:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-        }
-        .btn-primary-custom {
-            background: var(--btn-dark);
-            border: none;
-            border-radius: 12px;
-            padding: 0.85rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #ffffff;
+            font-weight: 500;
+            color: #0f172a;
+            background-color: #f8fafc;
             transition: all 0.2s ease;
         }
-        .btn-primary-custom:hover {
-            background: var(--btn-dark-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+
+        .input-group-custom .form-control:focus {
+            background-color: #ffffff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+            outline: none;
         }
-        .divider {
+
+        .input-group-custom .form-control:focus + .input-icon {
+            color: #3b82f6;
+        }
+
+        /* Buttons */
+        .btn-submit {
+            width: 100%;
+            background: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-submit:hover {
+            background: #1e293b;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+            color: #ffffff;
+        }
+
+        /* Divider Line */
+        .divider-container {
             display: flex;
             align-items: center;
             text-align: center;
+            margin: 1.75rem 0;
             color: #94a3b8;
             font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin: 1.5rem 0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
-        .divider::before, .divider::after {
+
+        .divider-container::before, .divider-container::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid #e2e8f0;
         }
-        .divider::before { margin-right: .75em; }
-        .divider::after { margin-left: .75em; }
 
-        .btn-social {
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
-            font-weight: 600;
-            font-size: 0.9rem;
+        .divider-container span {
+            padding: 0 1rem;
+        }
+
+        /* Social Buttons */
+        .social-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .btn-social-item {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            width: 100%;
-        }
-        .btn-google {
-            background: #ffffff;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
             border: 1.5px solid #e2e8f0;
+            background: #ffffff;
             color: #334155;
-        }
-        .btn-google:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            color: #0f172a;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
-        }
-        .btn-github {
-            background: #0f172a;
-            border: 1.5px solid #0f172a;
-            color: #ffffff;
-        }
-        .btn-github:hover {
-            background: #1e293b;
-            color: #ffffff;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
-        }
-        .signup-link {
-            color: #64748b;
+            font-weight: 600;
             font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        .signup-link a {
+
+        .btn-social-item:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
             color: #0f172a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-signup-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .footer-signup-text a {
+            color: #3b82f6;
             font-weight: 700;
             text-decoration: none;
-            transition: color 0.2s ease;
         }
-        .signup-link a:hover {
-            color: #3b82f6;
+
+        .footer-signup-text a:hover {
             text-decoration: underline;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .auth-wrapper {
+                flex-direction: column;
+            }
+            .auth-hero-panel {
+                padding: 2.5rem 2rem;
+                min-height: auto;
+            }
+            .auth-form-panel {
+                width: 100%;
+                padding: 2.5rem 2rem;
+            }
+            .hero-title {
+                font-size: 1.85rem;
+            }
+            .social-buttons-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
-        <!-- Brand Logo Badge -->
-        <div class="brand-icon">
-            H
+<div class="auth-wrapper">
+
+    <!-- LEFT PANEL: Brand Showcase -->
+    <div class="auth-hero-panel">
+        <!-- Brand Logo -->
+        <a href="#" class="brand-logo-badge">
+            <div class="brand-logo-icon">H</div>
+            <div class="brand-logo-text">Hangarin</div>
+        </a>
+
+        <!-- Middle Hero Banner -->
+        <div class="hero-content">
+            <h2 class="hero-title">Organize your workflow <span>with precision.</span></h2>
+            <p class="hero-subtitle">Experience a streamlined workspace designed to manage tasks, subtasks, and developer notes effortlessly.</p>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-check2-square"></i>
+                </div>
+                <div class="feature-text">
+                    <h6>Task & Subtask Management</h6>
+                    <p>Track priorities, set deadlines, and monitor completion statuses in real-time.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="bi bi-journal-text"></i>
+                </div>
+                <div class="feature-text">
+                    <h6>Integrated Developer Notes</h6>
+                    <p>Keep contextual project logs and documentation linked to your tasks.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Title Header -->
-        <div class="login-header text-center mb-4">
-            <h2 class="mb-1">Welcome to Hangarin</h2>
-            <p class="mb-0">Sign in to manage your tasks</p>
+        <!-- Hero Footer -->
+        <div class="hero-footer">
+            &copy; 2026 Hangarin Productivity Suite. All rights reserved.
+        </div>
+    </div>
+
+    <!-- RIGHT PANEL: Sign-In Form -->
+    <div class="auth-form-panel">
+        <div class="form-header">
+            <h1>Welcome back</h1>
+            <p>Please enter your credentials to access your workspace</p>
         </div>
 
-        <!-- Login Form -->
         <form method="post" action="{% url 'account_login' %}">
             {% csrf_token %}
-            
-            <div class="form-floating mb-3">
+
+            <!-- Username / Email Field -->
+            <div class="input-group-custom">
+                <i class="bi bi-person input-icon"></i>
                 <input type="text" name="login" class="form-control" id="id_login" placeholder="Username or Email" required autofocus>
-                <label for="id_login">Username or Email</label>
             </div>
 
-            <div class="form-floating mb-3">
+            <!-- Password Field -->
+            <div class="input-group-custom">
+                <i class="bi bi-lock input-icon"></i>
                 <input type="password" name="password" class="form-control" id="id_password" placeholder="Password" required>
-                <label for="id_password">Password</label>
             </div>
 
-            <button type="submit" class="btn btn-primary-custom w-100 mb-3">Sign In</button>
+            <!-- Options Row -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
+                    <label class="form-check-label text-secondary small fw-semibold" for="remember_me">
+                        Remember me
+                    </label>
+                </div>
+                <a href="#" class="small text-decoration-none fw-semibold text-primary">Forgot password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-submit">Sign In to Dashboard</button>
         </form>
 
         <!-- Divider -->
-        <div class="divider">OR</div>
+        <div class="divider-container">
+            <span>OR CONTINUE WITH</span>
+        </div>
 
         <!-- Social Connections -->
-        <div class="d-flex flex-column gap-2 mb-4">
-            <!-- Google Social Login -->
-            <a href="{% url 'google_login' %}" class="btn btn-social btn-google">
+        <div class="social-buttons-grid">
+            <a href="{% url 'google_login' %}" class="btn-social-item">
                 <svg width="18" height="18" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.3 9 5 12 5z"/>
                     <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
                     <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12.3s.7 2.6 1.9 5l3.7-2.5z"/>
                     <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.3-6.4-5.2L1.9 16c1.8 3.7 5.6 7 10.1 7z"/>
                 </svg>
-                Continue with Google
+                Google
             </a>
 
-            <!-- GitHub Social Login -->
-            <a href="{% url 'github_login' %}" class="btn btn-social btn-github">
-                <i class="bi bi-github fs-5"></i>
-                Continue with GitHub
+            <a href="{% url 'github_login' %}" class="btn-social-item">
+                <i class="bi bi-github fs-5 text-dark"></i>
+                GitHub
             </a>
         </div>
 
-        <!-- Signup Navigation Link -->
-        <div class="text-center signup-link">
+        <!-- Sign Up Link -->
+        <div class="footer-signup-text">
             Don't have a Hangarin account? <a href="{% url 'account_signup' %}">Sign Up</a>
         </div>
     </div>
+
+</div>
 
 </body>
 </html>
