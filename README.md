@@ -1,4 +1,5 @@
 HANGARIN
+
 A Django web application featuring a custom dark-mode authentication interface, Google and GitHub OAuth 2.0 integration, and live deployment on PythonAnywhere.
 
 Live Links:
