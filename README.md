@@ -18,20 +18,17 @@ Frontend: HTML5, CSS3, Bootstrap 5
 Hosting: PythonAnywhere
 
 Quick Start (Local Setup):
-1. Clone repository
+# 1. Clone repository
 git clone https://github.com/<your-username>/hangarin.git
 cd hangarin
 
-2. Create and activate virtual environment
+# 2. Create and activate virtual environment
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-3. Install dependencies
+# 3. Install dependencies
 pip install django django-allauth PyJWT cryptography
 
-4. Migrate database & run server
-python manage.py migrate
-python manage.py runserver
 # 4. Migrate database & run server
 python manage.py migrate
 python manage.py runserver
