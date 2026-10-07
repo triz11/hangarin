@@ -59,7 +59,9 @@
                 <h3 class="fw-bold mb-1">Subtasks Breakdown</h3>
                 <p class="text-secondary small mb-0">Granular actionable steps assigned under main project tasks.</p>
             </div>
-            <button class="btn btn-primary rounded-3 px-3 fw-semibold"><i class="bi bi-plus-lg me-1"></i> Add Subtask</button>
+            <a href="{% url 'subtask_create' %}" class="btn btn-primary rounded-3 px-3 fw-semibold">
+    <i class="bi bi-plus-lg me-1"></i> Add Subtask
+</a>
         </div>
 
         <div class="table-card">
@@ -70,6 +72,7 @@
                             <th>SUBTASK TITLE</th>
                             <th>PARENT TASK</th>
                             <th>STATUS</th>
+                            <th>ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +82,16 @@
                             <td><span class="badge bg-light text-dark border">{{ subtask.task }}</span></td>
                             <td>
                                 <span class="badge-status {% if subtask.status == 'Completed' %}badge-completed{% elif subtask.status == 'In Progress' %}badge-in-progress{% else %}badge-pending{% endif %}">
+                                    <td>
+    <div class="d-flex gap-1">
+        <a href="{% url 'subtask_edit' subtask.id %}" class="btn btn-sm btn-outline-primary py-0 px-2" title="Edit">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <a href="{% url 'subtask_delete' subtask.id %}" class="btn btn-sm btn-outline-danger py-0 px-2" title="Delete">
+            <i class="bi bi-trash"></i>
+        </a>
+    </div>
+</td>
                                     {{ subtask.status }}
                                 </span>
                             </td>

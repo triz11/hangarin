@@ -55,7 +55,9 @@
                 <h3 class="fw-bold mb-1">Developer Notes</h3>
                 <p class="text-secondary small mb-0">Contextual notes and documentation linked to active tasks.</p>
             </div>
-            <button class="btn btn-primary rounded-3 px-3 fw-semibold"><i class="bi bi-journal-plus me-1"></i> New Note</button>
+            <a href="/admin/" class="btn btn-primary rounded-3 px-3 fw-semibold">
+    <i class="bi bi-journal-plus me-1"></i> New Note
+</a>
         </div>
 
         <div class="row g-3">
@@ -66,9 +68,13 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="badge bg-primary bg-opacity-10 text-primary fw-semibold px-2.5 py-1 rounded-2 small">{{ note.task }}</span>
                         </div>
-                        <p class="text-dark small mb-3 leading-relaxed">{{ note.content }}</p>
-                    </div>
-                    <div class="border-top pt-2 mt-2 d-flex align-items-center justify-content-between text-secondary small">
+                        <div class="border-top pt-2 mt-2 d-flex align-items-center justify-content-between text-secondary small">
+    <span><i class="bi bi-clock me-1"></i>{{ note.created }}</span>
+    <div class="d-flex gap-1">
+        <a href="{% url 'note_edit' note.id %}" class="btn btn-sm btn-outline-primary py-0 px-2" title="Edit"><i class="bi bi-pencil"></i></a>
+        <a href="{% url 'note_delete' note.id %}" class="btn btn-sm btn-outline-danger py-0 px-2" title="Delete"><i class="bi bi-trash"></i></a>
+    </div>
+</div>
                         <span><i class="bi bi-clock me-1"></i>{{ note.created }}</span>
                     </div>
                 </div>

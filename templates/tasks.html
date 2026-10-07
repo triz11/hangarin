@@ -64,7 +64,9 @@
                 <h3 class="fw-bold mb-1">Tasks Directory</h3>
                 <p class="text-secondary small mb-0">View, filter, and track all primary task deliverables.</p>
             </div>
-            <button class="btn btn-primary rounded-3 px-3 fw-semibold"><i class="bi bi-plus-lg me-1"></i> Add Task</button>
+            <a href="{% url 'task_create' %}" class="btn btn-primary rounded-3 px-3 fw-semibold">
+    <i class="bi bi-plus-lg me-1"></i> Add Task
+</a>
         </div>
 
         <div class="table-card">
@@ -77,6 +79,7 @@
                             <th>PRIORITY</th>
                             <th>CATEGORY</th>
                             <th>DEADLINE</th>
+                            <th>ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,6 +98,16 @@
                             </td>
                             <td><span class="badge bg-light text-dark border">{{ task.category }}</span></td>
                             <td class="text-secondary small"><i class="bi bi-calendar3 me-1"></i>{{ task.deadline }}</td>
+                            <td>
+    <div class="d-flex gap-1">
+        <a href="{% url 'task_edit' task.id %}" class="btn btn-sm btn-outline-primary py-0 px-2" title="Edit">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <a href="{% url 'task_delete' task.id %}" class="btn btn-sm btn-outline-danger py-0 px-2" title="Delete">
+            <i class="bi bi-trash"></i>
+        </a>
+    </div>
+</td>
                         </tr>
                         {% endfor %}
                     </tbody>
